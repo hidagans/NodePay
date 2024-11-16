@@ -35,7 +35,7 @@ TOKEN_FILE = 'np_tokens_1.txt'
 
 DOMAIN_API = {
     "SESSION": "http://api.nodepay.ai/api/auth/session",
-    "PING": "http://52.77.10.116/api/network/ping"
+    "PING": "http://13.215.134.222/api/network/ping"
     
 }
 
