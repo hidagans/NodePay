@@ -33,11 +33,25 @@ PING_INTERVAL = 60
 RETRIES = 60  
 TOKEN_FILE = 'np_tokens_1.txt'  
 
-DOMAIN_API = {
-    "SESSION": "http://api.nodepay.ai/api/auth/session",
-    "PING": "http://13.215.134.222/api/network/ping"
-    
+DOMAIN_API_ENDPOINTS = {
+    "SESSION": [
+        # http://18.136.143.169/api/auth/session / rolling back just for auth
+        "http://api.nodepay.ai/api/auth/session"
+    ],
+    "PING": [
+        "http://54.255.192.166/api/network/ping",
+        "http://52.77.10.116/api/network/ping",
+        "http://13.215.134.222/api/network/ping"
+    ]
 }
+
+def get_random_endpoint(endpoint_type):
+    return random.choice(DOMAIN_API_ENDPOINTS[endpoint_type])
+
+def get_endpoint(endpoint_type):
+    if endpoint_type not in DOMAIN_API_ENDPOINTS:
+        raise ValueError(f"Unknown endpoint type: {endpoint_type}")
+    return get_random_endpoint(endpoint_type)
 
 CONNECTION_STATES = {
     "CONNECTED": 1,
@@ -50,17 +64,14 @@ browser_id = None
 account_info = {}
 last_ping_time = {}  
 
-
 def uuidv4():
     return str(uuid.uuid4())
-
-
+    
 def valid_resp(resp):
     if not resp or "code" not in resp or resp["code"] < 0:
         raise ValueError("Invalid response")
     return resp
-
-
+    
 async def render_profile_info(proxy, token):
     global browser_id, account_info
 
@@ -68,9 +79,9 @@ async def render_profile_info(proxy, token):
         np_session_info = load_session_info(proxy)
 
         if not np_session_info:
-            # 生成新的 browser_id
+            # Generate new browser_id
             browser_id = uuidv4()
-            response = await call_api(DOMAIN_API["SESSION"], {}, proxy, token)
+            response = await call_api(get_endpoint("SESSION"), {}, proxy, token)
             valid_resp(response)
             account_info = response["data"]
             if account_info.get("uid"):
@@ -94,7 +105,6 @@ async def render_profile_info(proxy, token):
         else:
             logger.error(f"Connection error: {e}")
             return proxy
-
 
 async def call_api(url, data, proxy, token):
     headers = {
