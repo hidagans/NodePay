@@ -57,8 +57,12 @@ CONNECTION_STATES = {
     "CONNECTED": 1,
     "DISCONNECTED": 2,
     "NONE_CONNECTION": 3
+    
 }
-
+status_connect = CONNECTION_STATES["NONE_CONNECTION"]
+browser_id = None
+account_info = {}
+last_ping_time = {}  
 
 def uuidv4():
     return str(uuid.uuid4())
