@@ -37,7 +37,7 @@ TOKEN_FILE = 'np_tokens_1.txt'
 DOMAIN_API_ENDPOINTS = {
     "SESSION": [
         # http://18.136.143.169/api/auth/session / rolling back just for auth
-        "http://api.nodepay.ai/api/auth/session"
+        "https://api.nodepay.ai/api/auth/session"
     ],
     "PING": [
         "http://54.255.192.166/api/network/ping",
