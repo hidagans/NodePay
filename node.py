@@ -34,7 +34,7 @@ RETRIES = 60
 TOKEN_FILE = 'np_tokens_1.txt'  
 
 DOMAIN_API = {
-    "SESSION": "http://api.nodepay.org/api/auth/session",
+    "SESSION": "https://api.nodepay.org/api/auth/session",
     "PING": "http://13.215.134.222/api/network/ping"
     
 }
