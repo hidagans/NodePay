@@ -33,22 +33,31 @@ PING_INTERVAL = 60
 RETRIES = 60  
 TOKEN_FILE = 'np_tokens_1.txt'  
 
-DOMAIN_API = {
-    "SESSION": "http://api.nodepay.ai/api/auth/session",
-    "PING": "http://52.77.10.116/api/network/ping"
-    
+DOMAIN_API_ENDPOINTS = {
+    "SESSION": [
+        # http://18.136.143.169/api/auth/session / rolling back just for auth
+        "http://api.nodepay.ai/api/auth/session"
+    ],
+    "PING": [
+        "http://54.255.192.166/api/network/ping",
+        "http://52.77.10.116/api/network/ping",
+        "http://13.215.134.222/api/network/ping"
+    ]
 }
+
+def get_random_endpoint(endpoint_type):
+    return random.choice(DOMAIN_API_ENDPOINTS[endpoint_type])
+
+def get_endpoint(endpoint_type):
+    if endpoint_type not in DOMAIN_API_ENDPOINTS:
+        raise ValueError(f"Unknown endpoint type: {endpoint_type}")
+    return get_random_endpoint(endpoint_type)
 
 CONNECTION_STATES = {
     "CONNECTED": 1,
     "DISCONNECTED": 2,
     "NONE_CONNECTION": 3
 }
-
-status_connect = CONNECTION_STATES["NONE_CONNECTION"]
-browser_id = None
-account_info = {}
-last_ping_time = {}  
 
 
 def uuidv4():
