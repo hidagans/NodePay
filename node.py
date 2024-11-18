@@ -34,7 +34,8 @@ RETRIES = 60
 TOKEN_FILE = 'np_tokens_1.txt'  
 
 DOMAIN_API = {
-    "SESSION": "https://api.nodepay.ai/api/auth/session"
+    "SESSION": "https://api.nodepay.ai/api/auth/session",
+    "PING": "https://httpbin.org/ip"
 }
 
 CONNECTION_STATES = {
